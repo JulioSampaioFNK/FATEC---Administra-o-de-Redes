@@ -1,0 +1,19 @@
+enable 
+configure terminal
+hostname R1
+enable secret cisco
+line vty 0 1
+password cisco
+login
+interface fastethernet 0/0
+ip address 1.0.0.254 255.0.0.0
+no shutdown
+interface serial 0/0/0
+encapsulation ppp
+clock rate 128000
+ip address 100.0.0.1 255.0.0.0
+no shutdown
+exit
+ip route 2.0.0.0 255.0.0.0 serial 0/0/0
+exit
+wr
