@@ -1,3 +1,4 @@
+R1
 enable 
 configure terminal
 hostname R1
@@ -17,3 +18,93 @@ exit
 ip route 2.0.0.0 255.0.0.0 serial 0/0/0
 exit
 wr
+
+
+
+R2
+enable 
+configure terminal
+hostname R2
+enable secret cisco
+line vty 0 1
+password cisco
+login
+interface fastethernet 0/0
+ip address 2.0.0.254 255.0.0.0
+no shutdown
+interface serial 0/0/0
+encapsulation ppp
+clock rate 128000
+ip address 100.0.0.2 255.0.0.0
+no shutdown
+exit
+ip route 1.0.0.0 255.0.0.0 serial 0/0/0
+exit
+wr
+
+
+
+SW1
+enable
+configure terminal
+hostname SW1
+enable secret cisco
+ip default-gateway 1.0.0.254
+line vty 0 1
+password cisco
+login
+interface vlan 1
+ip address 1.0.0.100 255.0.0.0
+no shutdown
+exit 
+do wr
+
+
+
+SW2
+enable
+configure terminal
+hostname SW2
+enable secret cisco
+ip default-gateway 2.0.0.254
+line vty 0 1
+password cisco
+login
+interface vlan 1
+ip address 2.0.0.100 255.0.0.0
+no shutdown
+exit 
+do wr
+
+
+
+S1
+IP 1.0.0.1
+MASK 255.0.0.0
+GATEWAY 1.0.0.254	
+DNS 1.0.0.1
+LIGA HTTP
+LIGA DHCP
+1.0.0.254
+1.0.0.1
+1.0.0.10
+255.0.0.0
+5
+LIGA DNS
+WWW.1.COM
+1.0.0.1
+
+
+
+S2
+IP 2.0.0.1
+MASK 255.0.0.0
+GATEWAY 2.0.0.254	
+DNS 1.0.0.1
+LIGA HTTP
+LIGA DHCP
+2.0.0.254
+1.0.0.1
+2.0.0.10
+255.0.0.0
+5
